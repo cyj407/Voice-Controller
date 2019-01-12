@@ -18,11 +18,13 @@ import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,7 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btStartService;
+    private ImageButton btStartService;
     private TextView tvText;
 
     // GUI Components
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btStartService = (Button) findViewById(R.id.btStartService);
+        btStartService = (ImageButton) findViewById(R.id.btStartService);
         tvText = (TextView) findViewById(R.id.tvText);
         //Some devices will not allow background service to work, So we have to enable autoStart for the app.
         //As per now we are not having any way to check autoStart is enable or not,so better to give this in LoginArea,
@@ -97,18 +99,26 @@ public class MainActivity extends AppCompatActivity {
         enableAutoStart();
 
         if (checkServiceRunning()) {
-            btStartService.setText(getString(R.string.stop_service));
+            btStartService.setImageResource(R.drawable.ic_mic_black_24dp);
+            //btStartService.setText(getString(R.string.stop_service));
             tvText.setVisibility(View.VISIBLE);
         }
 
         btStartService.setOnClickListener(v -> {
-            if (btStartService.getText().toString().equalsIgnoreCase(getString(R.string.start_service))) {
+            //if (btStartService.getText().toString().equalsIgnoreCase(getString(R.string.start_service))) {
+            Log.i("ImageButton", btStartService.getBackground().getConstantState().toString());
+            //Log.i("ImageButton", getString(R.mipmap.mic_off));
+            //Log.i("ImageButton", getString(R.mipmap.mic_on));
+            if(btStartService.getBackground().getConstantState()==getResources().getDrawable(R.drawable.ic_mic_black_24dp).getConstantState()){
+            //if(btStartService.getBackground().equals(R.drawable.ic_mic_black_24dp)) {
                 startService(new Intent(MainActivity.this, MyService.class));
-                btStartService.setText(getString(R.string.stop_service));
+                //btStartService.setText(getString(R.string.stop_service));
+                btStartService.setBackgroundResource(R.drawable.ic_mic_off_black_24dp);
                 tvText.setVisibility(View.VISIBLE);
             } else {
                 stopService(new Intent(MainActivity.this, MyService.class));
-                btStartService.setText(getString(R.string.start_service));
+                //btStartService.setText(getString(R.string.start_service));
+                btStartService.setBackgroundResource(R.drawable.ic_mic_black_24dp);
                 tvText.setVisibility(View.GONE);
             }
         });
@@ -280,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
         mPairedDevices = mBTAdapter.getBondedDevices();
         if(mBTAdapter.isEnabled()) {
             // put it's one to the adapter
+            mBTArrayAdapter.clear();
             for (BluetoothDevice device : mPairedDevices)
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             Toast.makeText(getApplicationContext(), "Show Paired Devices", Toast.LENGTH_SHORT).show();
