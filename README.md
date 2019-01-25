@@ -1,6 +1,6 @@
 # Voice-Controller
 An Android application to let you control the [bicycle direction indicator](https://github.com/cyj407/Direction-Indicator).
-<\br>
+</br>
 Use the background [Speech-Recognizer](https://github.com/sachinvarma/Speech-Recognizer).
 
 ## Environment
@@ -10,11 +10,11 @@ Use the background [Speech-Recognizer](https://github.com/sachinvarma/Speech-Rec
 ## How to use?
 1. Download this application
 <img width="200" height="200" src="https://i.imgur.com/I37jsYj.png">
-<\br>
+</br>
 2. Connect to Internet and Bluetooth
-<\br>
+</br>
 3. Pair the HC-05 device
-<\br>
+</br>
 4. Click the microphone button to enjoy background speech recognition.
 
 ## Reference
